@@ -1,1 +1,27 @@
+#!/usr/bin/env php
 <?php
+
+declare(strict_types=1);
+
+require_once(realpath(__DIR__ . '/../vendor/autoload.php'));
+
+$doc = <<<DOC
+Generate diff
+
+Usage:
+  gendiff (-h|--help)
+  gendiff (-v|--version)
+
+Options:
+  -h --help                     Show this screen
+  -v --version                  Show version
+DOC;
+
+$params = [
+    'argv' => array_slice($_SERVER['argv'], 1),
+    'help' => true,
+    'version' => '0.1.0',
+    'optionsFirst' => true,
+];
+
+$args = Docopt::handle($doc, $params);
