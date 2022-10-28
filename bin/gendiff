@@ -3,6 +3,8 @@
 
 declare(strict_types=1);
 
+use function WebsysForever\Differ\genDiff;
+
 require_once(realpath(__DIR__ . '/../vendor/autoload.php'));
 
 $doc = <<<DOC
@@ -27,3 +29,10 @@ $params = [
 ];
 
 $args = Docopt::handle($doc, $params);
+
+try {
+    $diff = genDiff($args['<firstFile>'], $args['<secondFile>']);
+    echo $diff . PHP_EOL;
+} catch (\Throwable $e) {
+    echo $e->getMessage();
+}
