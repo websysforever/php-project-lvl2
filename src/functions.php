@@ -14,13 +14,10 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
     $params1 = json_decode($file1, true);
     $params2 = json_decode($file2, true);
 
-    $allParamsNames = array_merge(array_keys($params1), array_keys($params2));
-    $allParamsNames = array_unique($allParamsNames);
-    sort($allParamsNames);
-
     $result = [];
-    foreach ($allParamsNames as $name) {
-        if (array_key_exists($name, $params1)
+    foreach (getUniqueNames($params1, $params2) as $name) {
+        if (
+            array_key_exists($name, $params1)
             && array_key_exists($name, $params2)
             && $params1[$name] === $params2[$name]
         ) {
@@ -39,6 +36,15 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
     }
 
     return json_encode($result);
+}
+
+function getUniqueNames(array $params1, array $params2): array
+{
+    $allParamsNames = array_merge(array_keys($params1), array_keys($params2));
+    $allParamsNames = array_unique($allParamsNames);
+    sort($allParamsNames);
+
+    return $allParamsNames;
 }
 
 /**

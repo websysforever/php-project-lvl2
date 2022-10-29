@@ -25,3 +25,7 @@ jobs:
         uses: hexlet/project-action@release
         with:
           hexlet-id: ${{ secrets.HEXLET_ID }}
+
+      - name: Check code by PHP_CodeSniffer
+        run: |
+          make lint
