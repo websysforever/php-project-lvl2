@@ -74,9 +74,5 @@ function readJsonFile(string $path): string
 
     $content = file_get_contents($path);
 
-    if (!$content) {
-        throw new \Exception("File reading error");
-    }
-
     return $content;
 }
