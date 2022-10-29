@@ -14,7 +14,13 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
     $params1 = json_decode($file1, true);
     $params2 = json_decode($file2, true);
 
-    $theSameParams = getTheSameParams($params1, $params2);
+//    $theSameParams = getTheSameParams($params1, $params2);
+    $theSameParams = [];
+    foreach (getUniqueNames($params1, $params2) as $name) {
+        if (existsInTwoFiles($name, $params1, $params2)) {
+            $theSameParams[$name] = $params1[$name];
+        }
+    }
 
     $result = [];
     foreach (getUniqueNames($params1, $params2) as $name) {
