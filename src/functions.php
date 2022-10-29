@@ -14,16 +14,53 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
     $params1 = json_decode($file1, true);
     $params2 = json_decode($file2, true);
 
-//    $theSameParams = getTheSameParams($params1, $params2);
-    $theSameParams = [];
+    $theSameParams = getTheSameParams($params1, $params2);
+    $differentParams = getDifferentParams($params1, $params2);
+
+    $result = array_merge($theSameParams, $differentParams);
+
+    uksort($result, function ($key1, $key2) {
+        $keys = [];
+
+        foreach ([$key1, $key2] as $key) {
+            $firstChar = substr($key, 0, 1);
+            $noSignKey = ($firstChar === '-' || $firstChar === '+')
+                ? substr_replace($key, '', 0)
+                : $key;
+
+            $keys[] = $noSignKey;
+        }
+
+        return $keys[0] < $keys[1];
+    });
+
+    return json_encode($result);
+}
+
+function getTheSameParams(array $params1, array $params2): array
+{
+    $result = [];
     foreach (getUniqueNames($params1, $params2) as $name) {
-        if (existsInTwoFiles($name, $params1, $params2)) {
-            $theSameParams[$name] = $params1[$name];
+        if (isTheSameParams($name, $params1, $params2)) {
+            $result[$name] = $params1[$name];
         }
     }
 
+    return $result;
+}
+
+function getDifferentParams(array $params1, array $params2): array
+{
     $result = [];
-    foreach (getUniqueNames($params1, $params2) as $name) {
+
+    $uniqueNames = getUniqueNames($params1, $params2);
+    foreach ($uniqueNames as $key => $name) {
+        if (isTheSameParams($name, $params1, $params2)) {
+            unset($uniqueNames[$key]);
+        }
+    }
+
+    foreach ($uniqueNames as $name) {
         if (array_key_exists($name, $params1)) {
             $result["-{$name}"] = $params1[$name];
         }
@@ -33,24 +70,10 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
         }
     }
 
-    $result = array_merge($result, $theSameParams);
-
-    return json_encode($result);
-}
-
-function getTheSameParams(array $params1, array $params2): array
-{
-    $result = [];
-    foreach (getUniqueNames($params1, $params2) as $name) {
-        if (existsInTwoFiles($name, $params1, $params2)) {
-            $result[$name] = $params1[$name];
-        }
-    }
-
     return $result;
 }
 
-function existsInTwoFiles(string $name, array $params1, array $params2): bool
+function isTheSameParams(string $name, array $params1, array $params2): bool
 {
     return (array_key_exists($name, $params1) && array_key_exists($name, $params2)
         && $params1[$name] === $params2[$name]);
