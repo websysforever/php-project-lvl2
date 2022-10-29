@@ -54,11 +54,6 @@ function getDifferentParams(array $params1, array $params2): array
     $result = [];
 
     $uniqueNames = getUniqueNames($params1, $params2);
-    foreach ($uniqueNames as $key => $name) {
-        if (isTheSameParams($name, $params1, $params2)) {
-            unset($uniqueNames[$key]);
-        }
-    }
 
     foreach ($uniqueNames as $name) {
         if (array_key_exists($name, $params1)) {
