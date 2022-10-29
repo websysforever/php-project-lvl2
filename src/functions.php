@@ -16,10 +16,7 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
 
     $result = [];
     foreach (getUniqueNames($params1, $params2) as $name) {
-        if (
-            array_key_exists($name, $params1) && array_key_exists($name, $params2)
-            && $params1[$name] === $params2[$name]
-        ) {
+        if (existsInTwoFiles($name, $params1, $params2)) {
             $result[$name] = $params1[$name];
 
             continue;
@@ -35,6 +32,12 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
     }
 
     return json_encode($result);
+}
+
+function existsInTwoFiles(string $name, array $params1, array $params2): bool
+{
+    return (array_key_exists($name, $params1) && array_key_exists($name, $params2)
+        && $params1[$name] === $params2[$name]);
 }
 
 function getUniqueNames(array $params1, array $params2): array
