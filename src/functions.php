@@ -25,10 +25,6 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
         if (array_key_exists($name, $params1)) {
             $result["-{$name}"] = $params1[$name];
         }
-
-        if (array_key_exists($name, $params2)) {
-            $result["+{$name}"] = $params2[$name];
-        }
     }
 
     return json_encode($result);
@@ -73,6 +69,10 @@ function readJsonFile(string $path): string
     }
 
     $content = file_get_contents($path);
+
+    if (!$content) {
+        throw new \Exception("File reading error");
+    }
 
     return $content;
 }
