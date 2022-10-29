@@ -17,8 +17,7 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
     $result = [];
     foreach (getUniqueNames($params1, $params2) as $name) {
         if (
-            array_key_exists($name, $params1)
-            && array_key_exists($name, $params2)
+            array_key_exists($name, $params1) && array_key_exists($name, $params2)
             && $params1[$name] === $params2[$name]
         ) {
             $result[$name] = $params1[$name];
