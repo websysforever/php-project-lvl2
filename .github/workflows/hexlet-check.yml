@@ -26,6 +26,8 @@ jobs:
         with:
           hexlet-id: ${{ secrets.HEXLET_ID }}
 
+      - name: Install project
+        run: make install
+
       - name: Check code by PHP_CodeSniffer
-        run: |
-          make lint
+        run: make lint
