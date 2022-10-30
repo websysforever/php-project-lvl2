@@ -32,9 +32,14 @@ jobs:
       - name: Check code by linter
         run: make lint
 
-      - name: Test with coverage
-        uses: paambaati/codeclimate-action@v2.2.4
+      - uses: actions/setup-node@master
+        with:
+          node-version: '12'
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn build
+      - uses: paambaati/codeclimate-action@v2.2.4
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-            coverageCommand: make test-coverage
+          coverageCommand: make test-coverage
