@@ -8,4 +8,4 @@ test:
 	vendor/bin/phpunit tests
 
 test-coverage:
-	vendor/bin/phpunit --coverage-clover clover.xml
+	vendor/bin/phpunit --coverage-clover clover.xml tests

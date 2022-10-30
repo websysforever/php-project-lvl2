@@ -32,10 +32,7 @@ jobs:
       - name: Check code by linter
         run: make lint
 
-      - name: Test code
-        run: make test
-
-      - name: Test coverage
+      - name: Test with coverage
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
