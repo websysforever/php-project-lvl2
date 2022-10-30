@@ -29,5 +29,18 @@ jobs:
       - name: Install project
         run: make install
 
-      - name: Check code by PHP_CodeSniffer
+      - name: Check code by linter
         run: make lint
+
+      - name: Test code
+        run: make test
+
+      - name: Test coverage
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+          make test-coverage
+          ./cc-test-reporter after-build -t clover --exit-code $?
