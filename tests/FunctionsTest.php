@@ -30,17 +30,4 @@ class FunctionsTest extends TestCase
         $result = genDiff($file1, $file2);
         $this->assertEquals(json_encode($expected), $result);
     }
-
-    /**
-     * @throws \Exception
-     */
-    public function testGenDiffWrongFile(): void
-    {
-        $file1 = 'tests/fixtures/file1.json';
-        $file2 = 'tests/fixtures/wrong-file2.json';
-
-        $this->expectException(\Exception::class);
-
-        genDiff($file1, $file2);
-    }
 }
