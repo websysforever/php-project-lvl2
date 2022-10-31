@@ -38,5 +38,4 @@ jobs:
           XDEBUG_MODE: coverage
         with:
           coverageCommand: make test-coverage
-          prefix: websysforever/php-project-lvl2
           debug: true
