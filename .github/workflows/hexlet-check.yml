@@ -32,6 +32,9 @@ jobs:
       - name: Check code by linter
         run: make lint
 
+      - name: Check php version
+        run: php -v
+
       - uses: paambaati/codeclimate-action@v2.7.1
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
