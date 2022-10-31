@@ -38,4 +38,3 @@ jobs:
           XDEBUG_MODE: coverage
         with:
           coverageCommand: make test-coverage
-          debug: true
