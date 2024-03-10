@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebsysForever\Differ\Formatters\Json;
+namespace Differ\Formatters\Json;
 
 /**
  * @throws \Exception

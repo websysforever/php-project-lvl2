@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace WebsysForever\Differ;
+namespace Differ\Differ;
 
-use function WebsysForever\Differ\Parsers\getParamsFromFile;
-use function WebsysForever\Differ\Formatters\format;
-use const WebsysForever\Differ\Formatters\FORMAT_DEFAULT;
+use function Differ\Differ\Parsers\getParamsFromFile;
+use function Differ\Formatters\format;
+use const Differ\Formatters\FORMAT_DEFAULT;
 
 const DIFF_TYPE_REMOVED   = 0;
 const DIFF_TYPE_ADDED     = 1;

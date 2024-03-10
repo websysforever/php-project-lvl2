@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebsysForever\Differ\Parsers;
+namespace Differ\Differ\Parsers;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -54,14 +54,6 @@ function getJsonParams(string $data): \stdClass
 function getYmlParams(string $data): \stdClass
 {
     return Yaml::parse($data, Yaml::PARSE_OBJECT_FOR_MAP);
-}
-
-/**
- * @throws \Exception
- */
-function getParser(string $file): string
-{
-
 }
 
 /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebsysForever\Differ\Formatters\Plain;
+namespace Differ\Formatters\Plain;
 
 /**
  * @throws \Exception

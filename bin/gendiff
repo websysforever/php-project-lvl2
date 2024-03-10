@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-use function WebsysForever\Differ\genDiff;
+use function Differ\Differ\genDiff;
 
 require_once(realpath(__DIR__ . '/../vendor/autoload.php'));
 

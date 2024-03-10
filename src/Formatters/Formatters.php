@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace WebsysForever\Differ\Formatters;
+namespace Differ\Formatters;
 
-use WebsysForever\Differ\Formatters\Stylish ;
-use WebsysForever\Differ\Formatters\Plain;
-use WebsysForever\Differ\Formatters\Json;
+use Differ\Formatters\Stylish ;
+use Differ\Formatters\Plain;
+use Differ\Formatters\Json;
 
 const FORMAT_DEFAULT = 'stylish';
 const FORMAT_PLAIN   = 'plain';

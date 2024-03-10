@@ -6,7 +6,7 @@ namespace Test\Differ;
 
 use PHPUnit\Framework\TestCase;
 
-use function WebsysForever\Differ\genDiff;
+use function Differ\Differ\genDiff;
 
 class FunctionsTest extends TestCase
 {

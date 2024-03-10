@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace WebsysForever\Differ\Formatters\Stylish;
+namespace Differ\Formatters\Stylish;
 
 use function Functional\flatten;
-use const WebsysForever\Differ\DIFF_TYPE_ADDED;
-use const WebsysForever\Differ\DIFF_TYPE_REMOVED;
-use const WebsysForever\Differ\DIFF_TYPE_CHANGED;
-use const WebsysForever\Differ\DIFF_TYPE_UNCHANGED;
-use const WebsysForever\Differ\DIFF_TYPE_COMPLEX;
+use const Differ\Differ\DIFF_TYPE_ADDED;
+use const Differ\Differ\DIFF_TYPE_REMOVED;
+use const Differ\Differ\DIFF_TYPE_CHANGED;
+use const Differ\Differ\DIFF_TYPE_UNCHANGED;
+use const Differ\Differ\DIFF_TYPE_COMPLEX;
 
 const DEFAULT_INDENT = 4;
 const DEFAULT_LEFT_OFFSET = 2;
