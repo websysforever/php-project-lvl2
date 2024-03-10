@@ -48,7 +48,7 @@ function renderValue($value, int $depth): string
         );
 
         $branch = implode("\n", flatten($leafs));
-        return "{\n{$branch}\n{$indent}}";
+        return "{\n{$branch}\n{$indent}  }";
     }
 
     return (string) $value;
@@ -75,7 +75,7 @@ function renderNested(callable $renderRows, array $item, int $depth): string
 
     return "{$indent}  {$item['name']}: {\n"
         . implode("\n", $renderRows($item['nestedDiff'], $depth + 2))
-        . "\n{$indent}    }";
+        . "\n{$indent}  }";
 }
 
 /**
