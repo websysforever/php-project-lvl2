@@ -13,22 +13,39 @@ class FunctionsTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testGenDiff(): void
+    public function testGenDiffNestedJsonSimple(): void
     {
-        $file1 = 'tests/fixtures/file1.json';
-        $file2 = 'tests/fixtures/file2.json';
+        $file1 = 'tests/fixtures/simple_nested_file01.json';
+        $file2 = 'tests/fixtures/simple_nested_file02.json';
 
         $expected = [
-            "host" => "hexlet.io",
-            "-follow" => false,
-            "-proxy" => "123.234.53.22",
-            "-timeout" => 50,
-            "+timeout" => 20,
-            "+verbose" => true,
+            'setting1' => 'Value 1',
+            'setting5' => [
+                'key5' => 'value5'
+            ],
         ];
 
-        $result = genDiff($file1, $file2);
-        $this->assertEquals(json_encode($expected), $result);
+        $result = genDiff($file1, $file2, 'json');
+        $this->assertEquals(json_encode($expected, JSON_PRETTY_PRINT), $result);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testGenDiffNestedStylish(): void
+    {
+        $file1 = 'tests/fixtures/simple_nested_file01.json';
+        $file2 = 'tests/fixtures/simple_nested_file02.json';
+
+        $expected = [
+            'setting1' => 'Value 1',
+            'setting5' => [
+                'key5' => 'value5'
+            ],
+        ];
+
+        $result = genDiff($file1, $file2, 'stylish');
+        $this->assertEquals(json_encode($expected, JSON_PRETTY_PRINT), $result);
     }
 
     /**

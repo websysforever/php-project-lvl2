@@ -1,0 +1,11 @@
+{
+  "setting1": "Value 1",
+  "setting2": {
+    "key5": "value5"
+  },
+  "setting3": ["a", "b", "c"],
+  "setting4": {
+    "0": "a2",
+    "1": "b2"
+  }
+}

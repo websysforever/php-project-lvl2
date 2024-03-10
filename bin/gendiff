@@ -31,7 +31,12 @@ $params = [
 $args = Docopt::handle($doc, $params);
 
 try {
-    $diff = genDiff($args['<firstFile>'], $args['<secondFile>']);
+    $diff = genDiff(
+        $args['<firstFile>'],
+        $args['<secondFile>'],
+        $args['--format']
+    );
+
     echo $diff . PHP_EOL;
 } catch (\Throwable $e) {
     echo $e->getMessage();
