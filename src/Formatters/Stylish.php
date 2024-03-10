@@ -20,7 +20,7 @@ const DEFAULT_INDENT_CHAR = ' ';
  */
 function makeIndent(int $depth = 0): string
 {
-    return str_repeat(DEFAULT_INDENT_CHAR, DEFAULT_INDENT* $depth);
+    return str_repeat(DEFAULT_INDENT_CHAR, DEFAULT_INDENT * $depth);
 }
 
 /**
@@ -71,7 +71,7 @@ function renderNested(callable $renderRows, array $item, int $depth): string
     $indent = makeIndent($depth);
 
     return "{$indent}  {$item['name']}: {\n"
-        . implode("\n", flatten($renderRows($item['nestedDiff'], $depth + 2)))
+        . implode("\n", flatten($renderRows($item['nestedDiff'], $depth + 1)))
         . "\n{$indent}  }";
 }
 
