@@ -13,7 +13,6 @@ use const Differ\Differ\DIFF_TYPE_UNCHANGED;
 use const Differ\Differ\DIFF_TYPE_NESTED;
 
 const DEFAULT_INDENT = 4;
-const DEFAULT_LEFT_OFFSET = 2;
 const DEFAULT_INDENT_CHAR = ' ';
 
 /**
@@ -21,9 +20,7 @@ const DEFAULT_INDENT_CHAR = ' ';
  */
 function makeIndent(int $depth = 0): string
 {
-    $repeatCount = (DEFAULT_INDENT - DEFAULT_LEFT_OFFSET) * $depth;
-
-    return str_repeat(DEFAULT_INDENT_CHAR, $repeatCount);
+    return str_repeat(DEFAULT_INDENT_CHAR, DEFAULT_INDENT* $depth);
 }
 
 /**
