@@ -12,17 +12,19 @@ const DIFF_TYPE_REMOVED   = 0;
 const DIFF_TYPE_ADDED     = 1;
 const DIFF_TYPE_UNCHANGED = 2;
 const DIFF_TYPE_CHANGED   = 3;
-const DIFF_TYPE_COMPLEX   = 4;
+const DIFF_TYPE_NESTED    = 4;
 
-if (!function_exists('array_is_list')) {
-    function array_is_list(array $value): bool
-    {
-        if ($value === []) {
-            return true;
-        }
-
-        return array_keys($value) === range(0, count($value) - 1);
+function array_is_list(mixed $value): bool
+{
+    if (!is_array($value)) {
+        return false;
     }
+
+    if ($value === []) {
+        return true;
+    }
+
+    return array_keys($value) === range(0, count($value) - 1);
 }
 
 function isComplexValue($value): bool
@@ -47,7 +49,7 @@ function createItem(int $type, string $name, $oldValue, $newValue = null): array
 function createComplexItem(string $name, array $nestedDiff): array
 {
     return [
-        'type'        => DIFF_TYPE_COMPLEX,
+        'type'        => DIFF_TYPE_NESTED,
         'name'        => $name,
         'nestedDiff' => $nestedDiff
     ];

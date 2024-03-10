@@ -34,18 +34,23 @@ class FunctionsTest extends TestCase
      */
     public function testGenDiffNestedStylish(): void
     {
-        $file1 = 'tests/fixtures/simple_nested_file01.json';
-        $file2 = 'tests/fixtures/simple_nested_file02.json';
+        $file1 = 'tests/fixtures/simple_nested_file1.json';
+        $file2 = 'tests/fixtures/simple_nested_file2.json';
 
-        $expected = [
-            'setting1' => 'Value 1',
-            'setting5' => [
-                'key5' => 'value5'
-            ],
-        ];
+        $expected = <<<DOC
+        {
+            setting1: Value 1
+            setting2: {
+                key5: value5
+            }
+          - setting3: a
+          + setting3: b
+        }
+        DOC;
 
         $result = genDiff($file1, $file2, 'stylish');
-        $this->assertEquals(json_encode($expected, JSON_PRETTY_PRINT), $result);
+
+        $this->assertEquals($expected, $result);
     }
 
     /**

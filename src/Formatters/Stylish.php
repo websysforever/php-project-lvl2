@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Differ\Formatters\Stylish;
 
 use function Functional\flatten;
+use function Differ\Differ\array_is_list;
 use const Differ\Differ\DIFF_TYPE_ADDED;
 use const Differ\Differ\DIFF_TYPE_REMOVED;
 use const Differ\Differ\DIFF_TYPE_CHANGED;
 use const Differ\Differ\DIFF_TYPE_UNCHANGED;
-use const Differ\Differ\DIFF_TYPE_COMPLEX;
+use const Differ\Differ\DIFF_TYPE_NESTED;
 
 const DEFAULT_INDENT = 4;
 const DEFAULT_LEFT_OFFSET = 2;
@@ -30,24 +31,8 @@ function makeIndent(int $depth = 0): string
  */
 function renderValue($value, int $depth): string
 {
-    if (is_array($value) || is_bool($value) || is_null($value)) {
+    if (array_is_list($value) || is_bool($value) || is_null($value)) {
         return json_encode($value, JSON_THROW_ON_ERROR);
-    }
-
-    if (is_object($value)) {
-        $indent = makeIndent($depth);
-
-        $leafs = array_map(
-            function ($key) use ($value, $depth): string {
-                $nestedIndent = makeIndent($depth + 1);
-
-                return "{$nestedIndent} {$key}: " . renderValue($value->$key, $depth + 1);
-            },
-            array_keys((array) $value)
-        );
-
-        $branch = implode("\n", flatten($leafs));
-        return "{\n {$branch} \n {$indent}}";
     }
 
     return (string) $value;
@@ -59,8 +44,8 @@ function renderValue($value, int $depth): string
 function renderChanged($item, int $depth): string
 {
     $indent = makeIndent($depth);
-    $rowOne = "{$indent} - {$item['name']}: " . renderValue($item['oldValue'], $depth);
-    $rowTwo = "{$indent} + {$item['name']}: " . renderValue($item['newValue'], $depth);
+    $rowOne = "{$indent}- {$item['name']}: " . renderValue($item['oldValue'], $depth);
+    $rowTwo = "{$indent}+ {$item['name']}: " . renderValue($item['newValue'], $depth);
 
     return implode("\n", [$rowOne, $rowTwo]);
 }
@@ -68,28 +53,39 @@ function renderChanged($item, int $depth): string
 /**
  * @throws \Exception
  */
-function render(array $diffItems, int $depth = 0): string
+function renderNested(callable $renderRows, array $item, int $depth): string
 {
     $indent = makeIndent($depth);
-    $nextDepth = ++$depth;
 
-    $renderedItems = array_map(
-        function ($item) use ($nextDepth) {
-            $nestedIndent = makeIndent($nextDepth);
+    return "{$indent}  {$item['name']}: {\n"
+        . implode("\n", $renderRows($item['nestedDiff'], $depth + 2))
+        . "\n{$indent}  }";
+}
 
-            return match ($item['type']) {
-                DIFF_TYPE_ADDED     => "{$nestedIndent} + {$item['name']}: " . renderValue($item['newValue'], $nextDepth),
-                DIFF_TYPE_REMOVED   => "{$nestedIndent} - {$item['name']}: " . renderValue($item['oldValue'], $nextDepth),
-                DIFF_TYPE_UNCHANGED => "{$nestedIndent}   {$item['name']}: " . renderValue($item['oldValue'], $nextDepth),
-                DIFF_TYPE_CHANGED   => renderChanged($item, $nextDepth),
-                DIFF_TYPE_COMPLEX   => "{$nestedIndent}   {$item['name']}: " . render($item['nestedDiff']),
-                default             => throw new \Exception('Unexpected differing type')
-            };
-        },
-        $diffItems
-    );
+/**
+ * @throws \Exception
+ */
+function render(array $diffItems): string
+{
+    $renderRows = function(array $diffItems, int $depth = 1) use (&$renderRows) {
+        return array_map(
+            function ($item) use ($renderRows, $depth) {
+                $indent = makeIndent($depth);
 
-    $flatten = flatten(["{$indent}\{", $renderedItems, "{$indent}\}"]);
+                return match ($item['type']) {
+                    DIFF_TYPE_ADDED     => "{$indent}+ {$item['name']}: " . renderValue($item['newValue'], $depth),
+                    DIFF_TYPE_REMOVED   => "{$indent}- {$item['name']}: " . renderValue($item['oldValue'], $depth),
+                    DIFF_TYPE_UNCHANGED => "{$indent}  {$item['name']}: " . renderValue($item['oldValue'], $depth),
+                    DIFF_TYPE_CHANGED   => renderChanged($item, $depth),
+                    DIFF_TYPE_NESTED    => renderNested($renderRows, $item, $depth),
+                    default             => throw new \Exception('Unexpected differing type')
+                };
+            },
+            $diffItems
+        );
+    };
+
+    $flatten = flatten(['{', $renderRows($diffItems), '}']);
 
     return implode("\n", $flatten);
 }
