@@ -12,7 +12,7 @@ use const Differ\Differ\DIFF_TYPE_CHANGED;
 use const Differ\Differ\DIFF_TYPE_UNCHANGED;
 use const Differ\Differ\DIFF_TYPE_NESTED;
 
-const DEFAULT_INDENT = 8;
+const DEFAULT_INDENT = 4;
 const DEFAULT_LEFT_OFFSET = 2;
 const DEFAULT_INDENT_CHAR = ' ';
 
@@ -42,7 +42,7 @@ function renderValue($value, int $depth): string
             function ($key) use ($value, $depth): string {
                 $nestedIndent = makeIndent($depth + 1);
 
-                return "{$nestedIndent}  {$key}: " . renderValue($value->$key, $depth + 1);
+                return "{$nestedIndent}    {$key}: " . renderValue($value->$key, $depth + 1);
             },
             array_keys((array) $value)
         );
