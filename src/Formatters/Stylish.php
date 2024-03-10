@@ -36,7 +36,7 @@ function renderValue($value, int $depth): string
     }
 
     if (is_object($value)) {
-        $indent = makeIndent($depth);
+        $indent = makeIndent($depth + 1);
 
         $leafs = array_map(
             function ($key) use ($value, $depth): string {
