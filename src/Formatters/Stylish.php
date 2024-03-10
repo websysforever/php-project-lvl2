@@ -70,7 +70,7 @@ function renderNested(callable $renderRows, array $item, int $depth): string
 {
     $indent = makeIndent($depth);
 
-    return "{$indent}  {$item['name']}: {\n"
+    return "{$indent}{$item['name']}: {\n"
         . implode("\n", flatten($renderRows($item['nestedDiff'], $depth + 1)))
         . "\n{$indent}  }";
 }
