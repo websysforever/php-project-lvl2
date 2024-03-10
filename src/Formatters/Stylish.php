@@ -39,13 +39,13 @@ function renderValue($value, int $depth): string
             function ($key) use ($value, $depth): string {
                 $nestedIndent = makeIndent($depth + 1);
 
-                return "{$nestedIndent}    {$key}: " . renderValue($value->$key, $depth + 1);
+                return "{$nestedIndent}  {$key}: " . renderValue($value->$key, $depth + 1);
             },
             array_keys((array) $value)
         );
 
         $branch = implode("\n", flatten($leafs));
-        return "{\n{$branch}\n{$indent}}";
+        return "{\n{$branch}\n{$indent}  }";
     }
 
     return (string) $value;
