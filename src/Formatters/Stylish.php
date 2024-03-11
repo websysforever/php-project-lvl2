@@ -49,7 +49,7 @@ function renderValue($value, int $depth): string
 
         $indent = makeIndent($depth);
 
-        return "{\n{$branch}\n{$indent}}";
+        return "{\n{$branch}\n{$indent}  }";
     }
 
     return (string) $value;
