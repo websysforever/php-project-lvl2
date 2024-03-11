@@ -63,7 +63,7 @@ function generateDiffItems($firstParams, $secondParams): array {
             return createItem(DIFF_TYPE_ADDED, $name, null, $secondParams->{$name});
         }
 
-        if (!isset($secondParams->{$name})) {
+        if (!isset($secondParams->{$name}) && $secondParams->{$name} !== null) {
             return createItem(DIFF_TYPE_REMOVED, $name, $firstParams->{$name}, null);
         }
 

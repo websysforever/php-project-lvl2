@@ -1,5 +1,6 @@
 {
   "setting1": "Value 1",
+  "setting1.1": null,
   "setting2": {
     "key5": "value5"
   },
