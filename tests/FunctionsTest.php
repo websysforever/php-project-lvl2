@@ -65,6 +65,25 @@ class FunctionsTest extends TestCase
     /**
      * @throws \Exception
      */
+    public function testGenDiffNestedPlain(): void
+    {
+        $file1 = 'tests/fixtures/simple_nested_file1.json';
+        $file2 = 'tests/fixtures/simple_nested_file2.json';
+
+        $expected = <<<DOC
+        Property 'setting1.1' was updated. From true to null
+        Property 'setting4' was updated. From 'a' to 'b'
+        Property 'setting5' was updated. From 'null' to ''
+        DOC;
+
+        $result = genDiff($file1, $file2, 'plain');
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @throws \Exception
+     */
     public function testGenDiffWrongFile(): void
     {
         $file1 = 'tests/fixtures/file1.json';
