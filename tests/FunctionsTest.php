@@ -43,6 +43,11 @@ class FunctionsTest extends TestCase
             setting2: {
                 key5: value5
             }
+            setting3: {
+                subkey1: {
+                    key1: valuekey1
+                }
+            },
           - setting3: a
           + setting3: b
         }

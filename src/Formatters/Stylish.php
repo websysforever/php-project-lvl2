@@ -13,6 +13,7 @@ use const Differ\Differ\DIFF_TYPE_UNCHANGED;
 use const Differ\Differ\DIFF_TYPE_NESTED;
 
 const DEFAULT_INDENT = 4;
+const DEFAULT_LEFT_OFFSET = 2;
 const DEFAULT_INDENT_CHAR = ' ';
 
 /**
@@ -20,7 +21,9 @@ const DEFAULT_INDENT_CHAR = ' ';
  */
 function makeIndent(int $depth = 0): string
 {
-    return str_repeat(DEFAULT_INDENT_CHAR, DEFAULT_INDENT * $depth);
+    $repeatCount = (DEFAULT_INDENT * $depth) - DEFAULT_LEFT_OFFSET;
+
+    return str_repeat(DEFAULT_INDENT_CHAR, $repeatCount);
 }
 
 /**
@@ -39,7 +42,7 @@ function renderValue($value, int $depth): string
             function ($key) use ($value, $depth): string {
                 $nestedIndent = makeIndent($depth + 1);
 
-                return "{$nestedIndent}{$key}: " . renderValue($value->$key, $depth + 1);
+                return "{$nestedIndent}  {$key}: " . renderValue($value->$key, $depth + 1);
             },
             array_keys((array) $value)
         );
@@ -70,7 +73,7 @@ function renderNested(callable $renderRows, array $item, int $depth): string
 {
     $indent = makeIndent($depth);
 
-    return "{$indent}{$item['name']}: {\n"
+    return "{$indent}  {$item['name']}: {\n"
         . implode("\n", flatten($renderRows($item['nestedDiff'], $depth + 1)))
         . "\n{$indent}  }";
 }
