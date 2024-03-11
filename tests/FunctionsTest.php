@@ -40,6 +40,8 @@ class FunctionsTest extends TestCase
         $expected = <<<DOC
         {
             setting1: Value 1
+          - setting1.1: true
+          + setting1.1: null
             setting2: {
                 key5: value5
             }
@@ -47,9 +49,11 @@ class FunctionsTest extends TestCase
                 subkey1: {
                     key1: valuekey1
                 }
-            },
-          - setting3: a
-          + setting3: b
+            }
+          - setting4: a
+          + setting4: b
+          - setting5: null
+          + setting5: 
         }
         DOC;
 

@@ -59,7 +59,7 @@ function generateDiffItems($firstParams, $secondParams): array {
     $uniqueFieldNames = getUniqueFieldNames($firstParams, $secondParams);
 
     $parameters = array_map(function ($name) use ($firstParams, $secondParams) {
-        if (!isset($firstParams->{$name})) {
+        if (!property_exists($firstParams, $name)) {
             return createItem(DIFF_TYPE_ADDED, $name, null, $secondParams->{$name});
         }
 

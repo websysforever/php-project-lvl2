@@ -9,5 +9,6 @@
       "key1": "valuekey1"
     }
   },
-  "setting4": "a"
+  "setting4": "a",
+  "setting5": null
 }
