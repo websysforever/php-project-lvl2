@@ -36,8 +36,6 @@ function renderValue($value, int $depth): string
     }
 
     if (is_object($value)) {
-        $indent = makeIndent($depth + 1);
-
         $leafs = array_map(
             function ($key) use ($value, $depth): string {
                 $nestedIndent = makeIndent($depth + 1);
@@ -48,6 +46,9 @@ function renderValue($value, int $depth): string
         );
 
         $branch = implode("\n", flatten($leafs));
+
+        $indent = makeIndent($depth);
+
         return "{\n{$branch}\n{$indent}}";
     }
 
