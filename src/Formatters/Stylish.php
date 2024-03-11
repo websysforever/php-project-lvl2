@@ -48,7 +48,7 @@ function renderValue($value, int $depth): string
         );
 
         $branch = implode("\n", flatten($leafs));
-        return "{\n{$branch}\n{$indent}  }";
+        return "{\n{$branch}\n{$indent}}";
     }
 
     return (string) $value;
