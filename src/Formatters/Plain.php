@@ -13,7 +13,7 @@ use const Differ\Differ\DIFF_TYPE_UNCHANGED;
 
 function renderPath(array $properties): string
 {
-    return implode('.', $properties);
+    return "'" . implode('.', $properties) . "'";
 }
 
 /**
