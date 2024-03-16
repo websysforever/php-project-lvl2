@@ -111,9 +111,9 @@ function getUniqueFieldNames(object $paramsObj1, object $paramsObj2): array
     $params2 = get_object_vars($paramsObj2);
 
     $allParamsNames = array_merge(array_keys($params1), array_keys($params2));
-    $allParamsNames = array_unique($allParamsNames);
+    $uniqueParamsNames = array_unique($allParamsNames);
 
-    return sort($allParamsNames, function ($paramOne, $paramTwo) {
+    return sort($uniqueParamsNames, function ($paramOne, $paramTwo) {
         return $paramOne <=> $paramTwo;
     });
 }
