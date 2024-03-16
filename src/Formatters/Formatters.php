@@ -17,7 +17,7 @@ const FORMAT_JSON    = 'json';
  */
 function format(string $format, array $diffItems): string
 {
-    return match($format) {
+    return match ($format) {
         FORMAT_DEFAULT => Stylish\render($diffItems),
         FORMAT_PLAIN   => Plain\render($diffItems),
         FORMAT_JSON    => Json\render($diffItems),

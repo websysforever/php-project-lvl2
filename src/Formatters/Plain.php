@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Differ\Formatters\Plain;
 
 use function Differ\Differ\array_is_list;
+
 use const Differ\Differ\DIFF_TYPE_ADDED;
 use const Differ\Differ\DIFF_TYPE_CHANGED;
 use const Differ\Differ\DIFF_TYPE_NESTED;
@@ -91,7 +92,7 @@ function filterOnlyChanged(array $diffItems): array
  */
 function render(array $diffItems): string
 {
-    $renderRows = function(array $diffItems, array $names = []) use (&$renderRows) {
+    $renderRows = function (array $diffItems, array $names = []) use (&$renderRows) {
         $rows = [];
 
         $onlyChangedItems = filterOnlyChanged($diffItems);

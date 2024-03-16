@@ -6,6 +6,7 @@ namespace Differ\Formatters\Stylish;
 
 use function Functional\flatten;
 use function Differ\Differ\array_is_list;
+
 use const Differ\Differ\DIFF_TYPE_ADDED;
 use const Differ\Differ\DIFF_TYPE_REMOVED;
 use const Differ\Differ\DIFF_TYPE_CHANGED;
@@ -84,7 +85,7 @@ function renderNested(callable $renderRows, array $item, int $depth): string
  */
 function render(array $diffItems): string
 {
-    $renderRows = function(array $diffItems, int $depth = 1) use (&$renderRows) {
+    $renderRows = function (array $diffItems, int $depth = 1) use (&$renderRows) {
         return array_map(
             function ($item) use ($renderRows, $depth) {
                 $indent = makeIndent($depth);

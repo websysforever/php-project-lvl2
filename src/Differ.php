@@ -6,6 +6,7 @@ namespace Differ\Differ;
 
 use function Differ\Differ\Parsers\getParamsFromFile;
 use function Differ\Formatters\format;
+
 use const Differ\Formatters\FORMAT_DEFAULT;
 
 const DIFF_TYPE_REMOVED   = 0;
@@ -55,7 +56,8 @@ function createComplexItem(string $name, array $nestedDiff): array
     ];
 }
 
-function generateDiffItems($firstParams, $secondParams): array {
+function generateDiffItems($firstParams, $secondParams): array
+{
     $uniqueFieldNames = getUniqueFieldNames($firstParams, $secondParams);
 
     $parameters = array_map(function ($name) use ($firstParams, $secondParams) {
