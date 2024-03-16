@@ -20,7 +20,7 @@ function renderPath(array $names): string
 /**
  * @throws \Exception
  */
-function renderValue($value): string
+function renderValue(mixed $value): string
 {
     if (array_is_list($value) || is_bool($value) || is_null($value)) {
         return json_encode($value, JSON_THROW_ON_ERROR);
@@ -72,7 +72,7 @@ function filterOnlyChanged(array $diffItems): array
         if ($item['type'] === DIFF_TYPE_NESTED) {
             $filteredNested = filterOnlyChanged($item['nestedDiff']);
 
-            if (!empty($filteredNested)) {
+            if (count($filteredNested) === 0) {
                 $filtered[] = [
                     'type'       => DIFF_TYPE_NESTED,
                     'name'       => $item['name'],
