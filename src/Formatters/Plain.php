@@ -72,7 +72,7 @@ function filterOnlyChanged(array $diffItems): array
         if ($item['type'] === DIFF_TYPE_NESTED) {
             $filteredNested = filterOnlyChanged($item['nestedDiff']);
 
-            if (count($filteredNested) === 0) {
+            if (count($filteredNested) > 0) {
                 $filtered[] = [
                     'type'       => DIFF_TYPE_NESTED,
                     'name'       => $item['name'],
