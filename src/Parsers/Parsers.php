@@ -61,7 +61,7 @@ function getYmlParams(string $data): \stdClass
  */
 function readFile(string $path): string
 {
-    if (empty($path)) {
+    if ('' === ($path)) {
         throw new \Exception("File path not passed");
     }
 
@@ -81,7 +81,7 @@ function readFile(string $path): string
 
     $content = file_get_contents($path);
 
-    if (!$content) {
+    if (false === $content) {
         throw new \Exception("File reading error");
     }
 

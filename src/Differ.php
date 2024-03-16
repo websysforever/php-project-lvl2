@@ -6,6 +6,7 @@ namespace Differ\Differ;
 
 use function Differ\Differ\Parsers\getParamsFromFile;
 use function Differ\Formatters\format;
+use function Functional\sort;
 
 use const Differ\Formatters\FORMAT_DEFAULT;
 
@@ -28,7 +29,7 @@ function array_is_list(mixed $value): bool
     return array_keys($value) === range(0, count($value) - 1);
 }
 
-function isComplexValue($value): bool
+function isComplexValue(mixed $value): bool
 {
     return (is_object($value) && !array_is_list((array) $value));
 }
@@ -56,7 +57,7 @@ function createComplexItem(string $name, array $nestedDiff): array
     ];
 }
 
-function generateDiffItems($firstParams, $secondParams): array
+function generateDiffItems(object $firstParams, object $secondParams): array
 {
     $uniqueFieldNames = getUniqueFieldNames($firstParams, $secondParams);
 
@@ -104,14 +105,15 @@ function genDiff(
     return format($format, $paramsDiff);
 }
 
-function getUniqueFieldNames($paramsObj1, $paramsObj2): array
+function getUniqueFieldNames(object $paramsObj1, object $paramsObj2): array
 {
     $params1 = get_object_vars($paramsObj1);
     $params2 = get_object_vars($paramsObj2);
 
     $allParamsNames = array_merge(array_keys($params1), array_keys($params2));
     $allParamsNames = array_unique($allParamsNames);
-    \sort($allParamsNames);
 
-    return $allParamsNames;
+    return sort($allParamsNames, function ($paramOne, $paramTwo) {
+        return $paramOne <=> $paramTwo;
+    });
 }

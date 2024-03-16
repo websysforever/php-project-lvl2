@@ -30,7 +30,7 @@ function makeIndent(int $depth = 0): string
 /**
  * @throws \Exception
  */
-function renderValue($value, int $depth): string
+function renderValue(mixed $value, int $depth): string
 {
     if (array_is_list($value) || is_bool($value) || is_null($value)) {
         return json_encode($value, JSON_THROW_ON_ERROR);
@@ -59,7 +59,7 @@ function renderValue($value, int $depth): string
 /**
  * @throws \Exception
  */
-function renderChanged($item, int $depth): string
+function renderChanged(array $item, int $depth): string
 {
     $indent = makeIndent($depth);
     $rowOne = "{$indent}- {$item['name']}: " . renderValue($item['oldValue'], $depth);
