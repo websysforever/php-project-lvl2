@@ -93,6 +93,8 @@ function render(array $diffItems): string
         $onlyChangedItems = filterOnlyChanged($diffItems);
 
         foreach ($onlyChangedItems as $item) {
+            // Can't find test fixtures for project
+            var_dump($item);
             $currentNames = array_merge($names, [$item['name']]);
 
             $rows[] = match ($item['type']) {
