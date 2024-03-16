@@ -71,7 +71,8 @@ class FunctionsTest extends TestCase
         $file2 = 'tests/fixtures/simple_nested_file2.json';
 
         $expected = <<<DOC
-        Property 'setting1.1' was updated. From true to null
+        Property 'setting1-1' was updated. From true to null
+        Property 'setting3-2.subkey3-2-1.key3-2-1-0' was updated. From 'valuekey1' to 'valuekey2'
         Property 'setting4' was updated. From 'a' to 'b'
         Property 'setting5' was updated. From null to ''
         DOC;

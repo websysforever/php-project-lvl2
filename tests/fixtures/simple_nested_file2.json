@@ -1,12 +1,17 @@
 {
   "setting1": "Value 1",
-  "setting1.1": null,
+  "setting1-1": null,
   "setting2": {
     "key5": "value5"
   },
   "setting3": {
     "subkey1": {
       "key1": "valuekey1"
+    }
+  },
+  "setting3-2": {
+    "subkey3-2-1": {
+      "key3-2-1-0": "valuekey2"
     }
   },
   "setting4": "b",

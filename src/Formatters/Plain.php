@@ -72,7 +72,11 @@ function filterOnlyChanged(array $diffItems): array
             $filteredNested = filterOnlyChanged($item['nestedDiff']);
 
             if (!empty($filteredNested)) {
-                $filtered[] = $filteredNested;
+                $filtered[] = [
+                    'type'       => DIFF_TYPE_NESTED,
+                    'name'       => $item['name'],
+                    'nestedDiff' => $filteredNested,
+                ];
             }
         } elseif ($item['type'] !== DIFF_TYPE_UNCHANGED) {
             $filtered[] = $item;
@@ -93,8 +97,6 @@ function render(array $diffItems): string
         $onlyChangedItems = filterOnlyChanged($diffItems);
 
         foreach ($onlyChangedItems as $item) {
-            // Can't find test fixtures for project
-            var_dump($item);
             $currentNames = array_merge($names, [$item['name']]);
 
             $rows[] = match ($item['type']) {
