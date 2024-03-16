@@ -73,7 +73,7 @@ class FunctionsTest extends TestCase
         $expected = <<<DOC
         Property 'setting1.1' was updated. From true to null
         Property 'setting4' was updated. From 'a' to 'b'
-        Property 'setting5' was updated. From 'null' to ''
+        Property 'setting5' was updated. From null to ''
         DOC;
 
         $result = genDiff($file1, $file2, 'plain');

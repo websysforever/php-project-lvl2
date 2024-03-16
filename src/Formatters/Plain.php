@@ -11,9 +11,9 @@ use const Differ\Differ\DIFF_TYPE_NESTED;
 use const Differ\Differ\DIFF_TYPE_REMOVED;
 use const Differ\Differ\DIFF_TYPE_UNCHANGED;
 
-function renderPath(array $properties): string
+function renderPath(array $names): string
 {
-    return "'" . implode('.', $properties) . "'";
+    return "'" . implode('.', $names) . "'";
 }
 
 /**
@@ -25,6 +25,10 @@ function renderValue($value): string
         return json_encode($value, JSON_THROW_ON_ERROR);
     }
 
+    if (is_int($value)) {
+        return (string) $value;
+    }
+
     if (is_object($value)) {
         return '[complex value]';
     }
@@ -34,9 +38,6 @@ function renderValue($value): string
     return "'{$strValue}'";
 }
 
-/**
- * @throws \Exception
- */
 function renderAdded(mixed $item, array $names): string
 {
     return 'Property ' . renderPath($names) . ' was added with value: ' . renderValue($item['newValue']);
@@ -62,12 +63,23 @@ function renderRemoved(array $names): string
     return 'Property ' . renderPath($names) . ' was removed';
 }
 
-/**
- * @throws \Exception
- */
-function renderUnchanged(array $names): string
+function filterOnlyChanged(array $diffItems): array
 {
-    return 'Property ' . renderPath($names) . ' not changed';
+    $filtered = [];
+
+    foreach ($diffItems as $item) {
+        if ($item['type'] === DIFF_TYPE_NESTED) {
+            $filteredNested = filterOnlyChanged($item['nestedDiff']);
+
+            if (!empty($filteredNested)) {
+                $filtered[] = $filteredNested;
+            }
+        } elseif ($item['type'] !== DIFF_TYPE_UNCHANGED) {
+            $filtered[] = $item;
+        }
+    }
+
+    return $filtered;
 }
 
 /**
@@ -76,21 +88,23 @@ function renderUnchanged(array $names): string
 function render(array $diffItems): string
 {
     $renderRows = function(array $diffItems, array $names = []) use (&$renderRows) {
-        return array_map(
-            function ($item) use ($names, $renderRows) {
-                $names[] = $item['name'];
+        $rows = [];
 
-                return match ($item['type']) {
-                    DIFF_TYPE_ADDED     => renderAdded($item, $names),
-                    DIFF_TYPE_REMOVED   => renderRemoved($names),
-                    DIFF_TYPE_UNCHANGED => renderUnchanged($names),
-                    DIFF_TYPE_CHANGED   => renderChanged($item, $names),
-                    DIFF_TYPE_NESTED    => implode("\n", $renderRows($item['nestedDiff'], $names)),
-                    default             => throw new \Exception('Unexpected differing type')
-                };
-            },
-            $diffItems
-        );
+        $onlyChangedItems = filterOnlyChanged($diffItems);
+
+        foreach ($onlyChangedItems as $item) {
+            $currentNames = array_merge($names, [$item['name']]);
+
+            $rows[] = match ($item['type']) {
+                DIFF_TYPE_ADDED   => renderAdded($item, $currentNames),
+                DIFF_TYPE_REMOVED => renderRemoved($currentNames),
+                DIFF_TYPE_CHANGED => renderChanged($item, $currentNames),
+                DIFF_TYPE_NESTED  => implode("\n", $renderRows($item['nestedDiff'], $currentNames)),
+                default => throw new \Exception('Unexpected differing type'),
+            };
+        }
+
+        return $rows;
     };
 
     return implode("\n", $renderRows($diffItems));
